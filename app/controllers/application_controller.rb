@@ -1,13 +1,16 @@
 class ApplicationController < ActionController::Base
 
-before_action :configure_permitted_parameters, if: :devise_controller?
+before_action :authenticate_user!, except: [:top] #ログイン認証されていなければ、ログイン画面へリダイレクトする
+before_action :configure_permitted_parameters, if: :devise_controller? #before_actionメソッドは、このコントローラが動作する前に実行され
+
+
 
   def after_sign_in_path_for(resource)
     post_images_path
   end
 
   def after_sign_out_path_for(resource)
-    about_path
+    root_path
   end
 
   protected
